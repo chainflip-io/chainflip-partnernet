@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  node:
+    image: chainfliplabs/chainflip-node:partnernet
+    pull_policy: always
+    stop_grace_period: 5s
+    stop_signal: SIGINT
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - 9944:9944
+      - 9933:9933
+      - 30333:30333
+    volumes:
+      - ./partnernet.chainspec.json:/etc/chainflip/partnernet.chainspec.json
+      - ./chainflip:/etc/chainflip
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
+    entrypoint:
+      - /usr/local/bin/chainflip-node
+    command:
+      - --chain=/etc/chainflip/partnernet.chainspec.json
+      - --base-path=/etc/chainflip/chaindata
+      - --bootnodes=/ip4/159.65.127.216/tcp/30333/p2p/12D3KooWFD3YMDyQocSQBAx6VCcUruYihi6xYufduzf321FnvvoY
+      - --rpc-cors=all
+      - --rpc-methods=Unsafe
+      - --unsafe-rpc-external
+      - --unsafe-ws-external
+      - --sync=warp
+
+  broker:
+    image: chainfliplabs/chainflip-broker-api:partnernet
+    pull_policy: always
+    stop_grace_period: 5s
+    stop_signal: SIGINT
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - 10997:80
+    volumes:
+      - ./chainflip/keys/broker:/etc/chainflip/keys
+    entrypoint:
+      - /usr/local/bin/chainflip-broker-api
+    command:
+      - --state_chain.ws_endpoint=ws://node:9944
+    depends_on:
+      - node
+
+  lp:
+    image: chainfliplabs/chainflip-lp-api:partnernet
+    pull_policy: always
+    stop_grace_period: 5s
+    stop_signal: SIGINT
+    platform: linux/amd64
+    restart: unless-stopped
+    ports:
+      - 10589:80
+    volumes:
+      - ./chainflip/keys/lp:/etc/chainflip/keys
+    entrypoint:
+      - /usr/local/bin/chainflip-lp-api
+    command:
+      - --state_chain.ws_endpoint=ws://node:9944
+    depends_on:
+      - node
