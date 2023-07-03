@@ -63,7 +63,7 @@ docker-compose up -d
 ```
 
 ### Interacting with the APIs
-
+You can connect to your local RPC using [PolkadotJS](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/explorer) to see chain events.
 > Note: The following commands take a little while to respond because it submits and waits for finality.
 #### Broker
 
@@ -98,5 +98,5 @@ Request a liquidity deposit address:
 ```bash
 curl -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "lp_liquidityDeposit", "params": ["Eth"]}' \
-    http://localhost:80
+    http://localhost:10589
 ```
