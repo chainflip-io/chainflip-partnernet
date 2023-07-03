@@ -27,19 +27,7 @@ services:
       - --unsafe-rpc-external
       - --unsafe-ws-external
       - --sync=warp
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl",
-          "-H 'Content-Type: application/json;'",
-          "-d '{\"id\":1, \"jsonrpc\":\"2.0\", \"method\": \"chain_getBlockHash\", \"params\" : [0]}'",
-          "http://localhost:9944"
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
+
   broker:
     image: chainfliplabs/chainflip-broker-api:partnernet
     pull_policy: always
