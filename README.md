@@ -5,6 +5,23 @@
 - JQ (https://stedolan.github.io/jq/download/)
 
 ## Setup
+### Clone the repo
+
+```bash
+git clone https://github.com/chainflip-io/chainflip-partnernet.git
+cd chainflip-partnernet
+```
+### Docker Setup
+You have two options to authenticate with Docker Hub:
+1. [Login using the Docker Desktop App](https://www.docker.com/blog/seamless-sign-in-with-docker-desktop-4-4-2/)
+2. Login using the CLI:
+
+    a. Go to https://hub.docker.com/settings/security and create an access token
+
+    b. Login using the CLI providing the token you just created when prompted for password:
+```bash
+docker login -u <YOUR_DOCKERHUB_USERNAME>
+```
 
 ### Generating Keys
 
