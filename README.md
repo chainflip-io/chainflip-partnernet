@@ -38,7 +38,7 @@ cat chainflip/lp-keys.json | jq -r '.secretSeed' | cut -c 3- > chainflip/keys/lp
 
 1. Get some `tFLIP`
 
-    a. Add the `tFLIP` token to your wallet using the following address: `0x1A3960317647f7a9420c7eBB8E0FB1bCDfe4Ca24`
+    a. Add the `tFLIP` token to your wallet using the following address: `0x1ea4f05a319a8f779f05e153974605756bb13d4f`
 
     b. Get in touch with us on [Discord](https://discord.com/channels/824147014140952596/1045323960339935342) and we'll send you some `tFLIP`
 
