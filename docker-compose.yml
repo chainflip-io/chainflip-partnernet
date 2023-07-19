@@ -21,7 +21,7 @@ services:
     command:
       - --chain=/etc/chainflip/partnernet.chainspec.json
       - --base-path=/etc/chainflip/chaindata
-      - --bootnodes=/ip4/159.65.127.216/tcp/30333/p2p/12D3KooWFD3YMDyQocSQBAx6VCcUruYihi6xYufduzf321FnvvoY
+      - --bootnodes=/ip4/134.122.67.204/tcp/30333/p2p/12D3KooWHrombbEnEr15Yc6pW67DF4r54QxAEiXB6UNSxZhwcypK
       - --rpc-cors=all
       - --rpc-methods=Unsafe
       - --unsafe-rpc-external
