@@ -11,17 +11,6 @@
 git clone https://github.com/chainflip-io/chainflip-partnernet.git
 cd chainflip-partnernet
 ```
-### Docker Setup
-You have two options to authenticate with Docker Hub:
-1. [Login using the Docker Desktop App](https://www.docker.com/blog/seamless-sign-in-with-docker-desktop-4-4-2/)
-2. Login using the CLI:
-
-    a. Go to https://hub.docker.com/settings/security and create an access token
-
-    b. Login using the CLI providing the token you just created when prompted for password:
-```bash
-docker login -u <YOUR_DOCKERHUB_USERNAME>
-```
 
 ### Generating Keys
 
@@ -64,23 +53,24 @@ docker-compose up -d
 
 ### Interacting with the APIs
 You can connect to your local RPC using [PolkadotJS](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/explorer) to see chain events.
-> Note: The following commands take a little while to respond because it submits and waits for finality.
+
+> Note: The following commands take a little while to respond because they submit and wait for finality.
 #### Broker
 
 Register a broker account:
 
 ```bash
-curl -H "Content-Type: application/json" \
+curl -s -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "broker_registerAccount"}' \
-    http://localhost:10997
+    http://localhost:10997 | jq
 ```
 
 Request a swap deposit address:
 
 ```bash
-curl -H "Content-Type: application/json" \
+curl -s -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "broker_requestSwapDepositAddress", "params": ["Eth", "Flip","0xabababababababababababababababababababab", 0]}' \
-    http://localhost:10997
+    http://localhost:10997 | jq
 ```
 
 #### LP
@@ -88,15 +78,33 @@ curl -H "Content-Type: application/json" \
 Register a broker account:
 
 ```bash
-curl -H "Content-Type: application/json" \
+curl -s -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "lp_registerAccount", "params": [0]}' \
-    http://localhost:10589
+    http://localhost:10589 | jq
 ```
-
-Request a liquidity deposit address:
+Before you request a liquidity deposit address, you need to register an emergency withdrawal address.
 
 ```bash
-curl -H "Content-Type: application/json" \
+# For Ethereum
+curl -s -H "Content-Type: application/json" \
+    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_registerEmergencyWithdrawalAddress", "params": ["Ethereum", "YOUR_ETH_ADDRESS"]}' \
+    http://localhost:10589 | jq
+
+# For Polkadot
+curl -s -H "Content-Type: application/json" \
+    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_registerEmergencyWithdrawalAddress", "params": ["Polkadot", "YOUR_HEX_ENCODED_DOT_ADDRESS"]}' \
+    http://localhost:10589 | jq
+
+# For Bitcoin
+curl -s -H "Content-Type: application/json" \
+    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_registerEmergencyWithdrawalAddress", "params": ["Bitcoin", "YOUR_BTC_ADDRESS"]}' \
+    http://localhost:10589 | jq
+```
+
+After you have registered an emergency withdrawal address, you can request a liquidity deposit address.
+
+```bash
+curl -s -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "lp_liquidityDeposit", "params": ["Eth"]}' \
-    http://localhost:10589
+    http://localhost:10589 | jq
 ```
